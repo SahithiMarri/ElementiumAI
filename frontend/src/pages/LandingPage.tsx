@@ -160,7 +160,7 @@ export default function LandingPage() {
       <nav className="relative z-10 flex items-center justify-between px-8 py-5 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
           <span className="text-2xl">⚗</span>
-          <span className="text-xl font-extrabold text-gradient">Elementium AI</span>
+          <span className="text-xl font-extrabold text-gradient">Elementium AI (VNR VJIET) </span>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -238,7 +238,7 @@ export default function LandingPage() {
               onClick={() => navigate('/lab/exp01_edta')}
               className="btn-primary text-base px-8 py-4 rounded-2xl flex items-center gap-2"
             >
-              <span>🚀</span> Launch Laboratory
+              <span>🚀</span> Enter the Laboratory
             </button>
             <button
               onClick={() => document.getElementById('experiments')?.scrollIntoView({ behavior: 'smooth' })}
