@@ -54,48 +54,48 @@ export default function AIAssistant() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="w-80 sm:w-96 bg-white/95 backdrop-blur-2xl rounded-2xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col mb-3 text-slate-900"
+            className="w-80 sm:w-96 bg-[#fbf4e8]/95 backdrop-blur-2xl rounded-2xl border border-[#d9c3a0] shadow-2xl overflow-hidden flex flex-col mb-3 text-[#3d2b1c]"
           >
             {/* Header */}
-            <div className="bg-slate-50/90 p-3.5 border-b border-slate-200 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-sm shadow-sm text-white font-bold">
+            <div className="bg-[#ecdbc0]/80 p-3 border-b border-[#d9c3a0] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-[#a9713a] flex items-center justify-center text-sm shadow-sm text-white font-bold">
                   🤖
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-[#3d2b1c] flex items-center gap-1.5">
                     Elementium AI Tutor
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
                   </h4>
-                  <p className="text-[10px] text-slate-500 font-medium">Contextual Lab Intelligence</p>
+                  <p className="text-[9px] text-[#8a7052] font-medium">Contextual Lab Intelligence</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-slate-700 text-xs p-1 rounded-lg hover:bg-slate-200/60 transition-colors"
+                className="text-[#8a7052] hover:text-[#3d2b1c] text-xs p-1 rounded hover:bg-[#d9c3a0]/50 transition-colors"
               >
                 ✕
               </button>
             </div>
 
             {/* Message Area */}
-            <div className="p-3.5 max-h-64 overflow-y-auto space-y-2.5 text-xs bg-white">
+            <div className="p-3 max-h-60 overflow-y-auto space-y-2 text-xs bg-[#fbf4e8]">
               {aiMessages.length === 0 ? (
-                <div className="text-slate-500 text-center py-4 leading-relaxed">
+                <div className="text-[#8a7052] text-center py-4 leading-relaxed">
                   👋 Hello! I am your AI Chemistry Lab Assistant. I will guide you through each step and explain the chemistry principles.
                 </div>
               ) : (
                 aiMessages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`p-3 rounded-xl text-xs leading-relaxed font-medium shadow-sm ${
+                    className={`p-2.5 rounded-xl text-xs leading-relaxed font-medium shadow-2xs ${
                       msg.type === 'correction'
-                        ? 'bg-rose-50 border border-rose-200 text-rose-800'
+                        ? 'bg-rose-100 border border-rose-300 text-rose-950'
                         : msg.type === 'explanation'
-                        ? 'bg-indigo-50 border border-indigo-200 text-indigo-900'
+                        ? 'bg-[#f0dcb8] border border-[#d9c3a0] text-[#3d2b1c]'
                         : msg.type === 'success'
-                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-900'
-                        : 'bg-slate-50 border border-slate-200 text-slate-800'
+                        ? 'bg-emerald-100 border border-emerald-300 text-emerald-950'
+                        : 'bg-white/80 border border-[#d9c3a0] text-[#3d2b1c]'
                     }`}
                   >
                     {msg.text}
@@ -104,10 +104,10 @@ export default function AIAssistant() {
               )}
 
               {isAITyping && (
-                <div className="flex items-center gap-1.5 p-2 text-slate-400 text-[11px]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-bounce [animation-delay:0.4s]" />
+                <div className="flex items-center gap-1.5 p-1.5 text-[#8a7052] text-[11px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#a9713a] animate-bounce" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#a9713a] animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#a9713a] animate-bounce [animation-delay:0.4s]" />
                   <span>AI Thinking...</span>
                 </div>
               )}
@@ -115,48 +115,48 @@ export default function AIAssistant() {
             </div>
 
             {/* Quick Chemistry Inquiry Chips */}
-            <div className="px-3 py-2 bg-slate-50 border-t border-slate-200 flex gap-1.5 overflow-x-auto no-scrollbar">
+            <div className="px-2.5 py-1.5 bg-[#ecdbc0]/60 border-t border-[#d9c3a0] flex gap-1.5 overflow-x-auto no-scrollbar">
               <button
                 onClick={() => sendExplanation('ebt')}
-                className="px-2.5 py-1 rounded-full bg-white hover:bg-sky-50 hover:text-sky-700 text-[10px] text-slate-600 font-semibold border border-slate-200 whitespace-nowrap transition-colors shadow-2xs"
+                className="px-2 py-0.5 rounded-full bg-white hover:bg-[#f0dcb8] text-[9px] text-[#3d2b1c] font-semibold border border-[#d9c3a0] whitespace-nowrap transition-colors"
               >
-                ❓ Why Wine Red?
+                ❓ Wine Red
               </button>
               <button
                 onClick={() => sendExplanation('edta')}
-                className="px-2.5 py-1 rounded-full bg-white hover:bg-sky-50 hover:text-sky-700 text-[10px] text-slate-600 font-semibold border border-slate-200 whitespace-nowrap transition-colors shadow-2xs"
+                className="px-2 py-0.5 rounded-full bg-white hover:bg-[#f0dcb8] text-[9px] text-[#3d2b1c] font-semibold border border-[#d9c3a0] whitespace-nowrap transition-colors"
               >
                 ❓ EDTA Chelation
               </button>
               <button
                 onClick={() => sendExplanation('buffer')}
-                className="px-2.5 py-1 rounded-full bg-white hover:bg-sky-50 hover:text-sky-700 text-[10px] text-slate-600 font-semibold border border-slate-200 whitespace-nowrap transition-colors shadow-2xs"
+                className="px-2 py-0.5 rounded-full bg-white hover:bg-[#f0dcb8] text-[9px] text-[#3d2b1c] font-semibold border border-[#d9c3a0] whitespace-nowrap transition-colors"
               >
-                ❓ Role of Buffer
+                ❓ pH 10 Buffer
               </button>
               <button
                 onClick={() => sendExplanation('endpoint')}
-                className="px-2.5 py-1 rounded-full bg-white hover:bg-sky-50 hover:text-sky-700 text-[10px] text-slate-600 font-semibold border border-slate-200 whitespace-nowrap transition-colors shadow-2xs"
+                className="px-2 py-0.5 rounded-full bg-white hover:bg-[#f0dcb8] text-[9px] text-[#3d2b1c] font-semibold border border-[#d9c3a0] whitespace-nowrap transition-colors"
               >
-                ❓ Endpoint
+                ❓ Blue Endpoint
               </button>
             </div>
 
             {/* Input Form */}
             <form
               onSubmit={handleAskQuestion}
-              className="p-2.5 bg-slate-100/80 border-t border-slate-200 flex gap-1.5"
+              className="p-2 bg-[#ecdbc0] border-t border-[#d9c3a0] flex gap-1.5"
             >
               <input
                 type="text"
                 value={inputQuestion}
                 onChange={(e) => setInputQuestion(e.target.value)}
-                placeholder="Ask AI about reactions or reagents..."
-                className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 transition-colors shadow-inner"
+                placeholder="Ask AI about reactions..."
+                className="flex-1 bg-white border border-[#d9c3a0] rounded-lg px-2.5 py-1 text-xs text-[#3d2b1c] placeholder-[#8a7052] focus:outline-none focus:border-[#a9713a]"
               />
               <button
                 type="submit"
-                className="bg-sky-600 hover:bg-sky-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition-colors shadow-sm"
+                className="primary-button text-xs py-1 px-3 rounded-lg"
               >
                 Send
               </button>
@@ -171,11 +171,11 @@ export default function AIAssistant() {
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           onClick={() => setIsOpen(true)}
-          className="bg-white border border-slate-200 hover:border-sky-400 rounded-full px-4 py-2.5 shadow-xl text-slate-800 flex items-center gap-2 group transition-all"
+          className="bg-[#fbf4e8] border border-[#d9c3a0] hover:border-[#a9713a] rounded-full px-3.5 py-2 shadow-xl text-[#3d2b1c] flex items-center gap-2 group transition-all"
         >
-          <span className="text-lg">🤖</span>
-          <span className="text-xs font-bold text-slate-800 group-hover:text-sky-600 pr-1">
-            AI Assistant
+          <span className="text-base">🤖</span>
+          <span className="text-xs font-bold text-[#3d2b1c] group-hover:text-[#a9713a] pr-1">
+            AI Tutor
           </span>
         </motion.button>
       )}

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { ChemicalBottle } from './ChemicalBottle'
@@ -7,7 +7,7 @@ import { useAIAssistant } from '../../../hooks/useAIAssistant'
 import { validateStep } from '../../../engine/mistakeDetector/rules'
 import exp01 from '../../../experiments/exp01_edta/config'
 
-// Animated liquid stream pouring from bottle to receiving vessel
+// Ray-aligned animated liquid stream pouring directly into vessel interior
 function LiquidPourStream({
   startPos,
   endPos,
@@ -19,33 +19,39 @@ function LiquidPourStream({
 }) {
   const meshRef = useRef<THREE.Mesh>(null)
 
-  const dx = endPos[0] - startPos[0]
-  const dy = endPos[1] - startPos[1]
-  const dz = endPos[2] - startPos[2]
-  const height = Math.sqrt(dx * dx + dy * dy + dz * dz)
-  const midX = (startPos[0] + endPos[0]) / 2
-  const midY = (startPos[1] + endPos[1]) / 2
-  const midZ = (startPos[2] + endPos[2]) / 2
+  const { mid, length, quat } = useMemo(() => {
+    const a = new THREE.Vector3(...startPos)
+    const b = new THREE.Vector3(...endPos)
+    const delta = new THREE.Vector3().subVectors(b, a)
+    const length = Math.max(0.1, delta.length())
+    const mid = new THREE.Vector3().addVectors(a, b).multiplyScalar(0.5)
+    const quat = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0),
+      delta.clone().normalize()
+    )
+    return { mid, length, quat }
+  }, [startPos, endPos])
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return
     const t = clock.getElapsedTime()
     // Subtle stream thickness pulse
-    const s = 1 + Math.sin(t * 20) * 0.15
+    const s = 1 + Math.sin(t * 22) * 0.12
     meshRef.current.scale.set(s, 1, s)
   })
 
   return (
-    <group position={[midX, midY, midZ]}>
+    <group position={[mid.x, mid.y, mid.z]} quaternion={quat}>
       <mesh ref={meshRef}>
-        <cylinderGeometry args={[0.025, 0.04, height, 8]} />
+        <cylinderGeometry args={[0.024, 0.038, length, 12]} />
         <meshStandardMaterial
           color={color}
           transparent
-          opacity={0.88}
+          opacity={0.92}
           emissive={color}
-          emissiveIntensity={0.4}
-          roughness={0.2}
+          emissiveIntensity={0.5}
+          roughness={0.1}
+          metalness={0.05}
         />
       </mesh>
     </group>
@@ -71,13 +77,20 @@ export default function ChemicalShelf() {
 
   const { sendGuidance, sendCorrection } = useAIAssistant()
 
-  // Target positions: Flask opening vs Burette opening
-  const FLASK_TARGET: [number, number, number] = [-0.8, 1.45, 0.72]
-  const BURETTE_TARGET: [number, number, number] = [-0.8, 5.5, 0.72]
+  // Target vessel rim coordinates
+  const FLASK_TARGET: [number, number, number] = [-0.8, 3.47, 0.72]
+  const BURETTE_TARGET: [number, number, number] = [-0.8, 5.52, 0.72]
 
-  // Pour positions (where bottle tilts over the opening)
-  const FLASK_POUR: [number, number, number] = [-0.48, 1.85, 0.72]
-  const BURETTE_POUR: [number, number, number] = [-0.48, 5.75, 0.72]
+  // Hover/Tilt positions: placed to the right of the vessel, tilting leftwards over the opening
+  const FLASK_POUR: [number, number, number] = [-0.18, 3.15, 0.72]
+  const BURETTE_POUR: [number, number, number] = [-0.18, 5.20, 0.72]
+
+  // Stream spout origin & stream landing inside the vessel
+  const FLASK_STREAM_START: [number, number, number] = [-0.80, 3.50, 0.72]
+  const FLASK_STREAM_END: [number, number, number] = [-0.80, 1.25, 0.72]
+
+  const BURETTE_STREAM_START: [number, number, number] = [-0.80, 5.55, 0.72]
+  const BURETTE_STREAM_END: [number, number, number] = [-0.80, 4.00, 0.72]
 
   const handlePourChemical = (chemicalId: string) => {
     const state = useLabStore.getState()
@@ -252,8 +265,8 @@ export default function ChemicalShelf() {
       {/* ── Active Pouring Liquid Stream ──────────────────────────────────── */}
       {isPouring && activeChemicalConfig && (
         <LiquidPourStream
-          startPos={isFlaskTarget ? FLASK_POUR : BURETTE_POUR}
-          endPos={isFlaskTarget ? [-0.8, 1.15, 0.72] : [-0.8, 4.8, 0.72]}
+          startPos={isFlaskTarget ? FLASK_STREAM_START : BURETTE_STREAM_START}
+          endPos={isFlaskTarget ? FLASK_STREAM_END : BURETTE_STREAM_END}
           color={activeChemicalConfig.color}
         />
       )}

@@ -63,7 +63,7 @@ export function ChemicalBottle({
   useFrame(({ raycaster, pointer, camera }, delta) => {
     if (!groupRef.current) return
 
-    // 1. Pouring animation state
+    // 1. Pouring animation state (Tilts smoothly to the LEFT towards the flask/burette mouth)
     if (isCurrentPouring) {
       groupRef.current.position.x = THREE.MathUtils.lerp(
         groupRef.current.position.x,
@@ -81,9 +81,10 @@ export function ChemicalBottle({
         delta * 6
       )
 
+      // Positive Z tilt rotates top of bottle to the LEFT towards negative X (directly over flask mouth)
       groupRef.current.rotation.z = THREE.MathUtils.lerp(
         groupRef.current.rotation.z,
-        -Math.PI / 3.2,
+        Math.PI / 3.0,
         delta * 8
       )
       return
@@ -101,7 +102,7 @@ export function ChemicalBottle({
       ]
       setCurrentPos(newPos)
       groupRef.current.position.set(newPos[0], newPos[1], newPos[2])
-      groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, -0.15, delta * 8)
+      groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, 0.12, delta * 8)
       return
     }
 
@@ -175,8 +176,8 @@ export function ChemicalBottle({
         <mesh position={[0, -0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[0.2, 0.32, 24]} />
           <meshStandardMaterial
-            color={isDragging ? '#16a34a' : '#0284c7'}
-            emissive={isDragging ? '#16a34a' : '#0284c7'}
+            color={isDragging ? '#16a34a' : '#a9713a'}
+            emissive={isDragging ? '#16a34a' : '#a9713a'}
             emissiveIntensity={0.7}
             transparent
             opacity={0.8}
@@ -247,9 +248,9 @@ export function ChemicalBottle({
       {/* HTML Hover Tooltip (hidden when completed) */}
       {showTooltip && !isCompleted && (
         <Html position={[0, 0.95, 0]} center style={{ pointerEvents: 'none' }}>
-          <div className="flex flex-col items-center px-3 py-1.5 rounded-xl bg-white/95 text-slate-900 border border-sky-300 shadow-xl whitespace-nowrap text-xs">
-            <span className="font-bold text-sky-800">{name}</span>
-            <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+          <div className="flex flex-col items-center px-3 py-1.5 rounded-xl bg-[#fbf4e8]/95 text-[#3d2b1c] border border-[#d9c3a0] shadow-xl whitespace-nowrap text-xs">
+            <span className="font-bold text-[#a9713a]">{name}</span>
+            <span className="text-[10px] text-emerald-800 font-semibold flex items-center gap-1">
               <span>💧</span> Drag to {targetLabel}
             </span>
           </div>

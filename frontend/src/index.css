@@ -2,117 +2,319 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    box-sizing: border-box;
-  }
-
-  html,
-  body,
-  #root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #f8fafc;
-    color: #0f172a;
-    font-family: 'Inter', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Custom scrollbar for light theme */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-  }
+:root {
+  --bg: #f4e8d8;
+  --sidebar: #ecdbc0;
+  --surface: #fbf4e8;
+  --surface-raised: #ffffff;
+  --border: #d9c3a0;
+  --border-soft: #e7d6b8;
+  --text: #3d2b1c;
+  --muted: #8a7052;
+  --mint: #a9713a;
+  --mint-dark: #f0dcb8;
+  --gold: #c9973f;
+  --lavender: #8a5a3f;
+  --blue: #79532f;
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
-@layer utilities {
-  .glass {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  }
-
-  .glass-light {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(226, 232, 240, 0.6);
-  }
-
-  .glow-cyan {
-    box-shadow: 0 4px 20px rgba(2, 132, 199, 0.2);
-  }
-
-  .glow-cyan-sm {
-    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.15);
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, #0284c7, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #d97706, #b45309);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .btn-primary {
-    @apply px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300;
-    background: linear-gradient(135deg, #0284c7, #2563eb);
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
-  }
-  .btn-primary:hover {
-    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
-    transform: translateY(-1px);
-  }
-
-  .btn-secondary {
-    @apply px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300;
-    background: #ffffff;
-    color: #334155;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  }
-  .btn-secondary:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    color: #0f172a;
-  }
+* {
+  box-sizing: border-box;
 }
 
-/* Molecule animation */
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+html, body, #root {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Lab canvas overrides */
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+button, a {
+  transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.18s;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9b490;
+  border-radius: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* App Shell & Sidebar */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border-soft);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.main-shell {
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Brand & Typography */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+  font-weight: 750;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.brand-icon {
+  color: var(--mint);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.brand-ai {
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--mint);
+}
+
+.brand small {
+  display: block;
+  font-size: 8px;
+  color: #847867;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Nav Item */
+.nav-item {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #716759;
+  border-radius: 6px;
+  margin: 3px 0;
+  position: relative;
+  min-height: 40px;
+}
+
+.nav-item:hover {
+  background: #e4ddd6;
+  color: #19261f;
+}
+
+.nav-item.selected {
+  color: #482d12;
+  background: linear-gradient(90deg, #ddcebe, #e5dcd2);
+  font-weight: 600;
+}
+
+.nav-item.selected:before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Scientist Profile Card in Sidebar */
+.scientist-card {
+  background: linear-gradient(130deg, #e2dad1, #e9e4de);
+  border: 1px solid #c2d4c9;
+  border-radius: 7px;
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 2px 14px;
+}
+
+.level-emblem {
+  background: #c4d6c7;
+  border: 1px solid #b3c5ac;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: #687333;
+  display: grid;
+  place-items: center;
+}
+
+.progress-track {
+  height: 4px;
+  background: #d8cec4;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-track i {
+  height: 100%;
+  display: block;
+  background: var(--mint);
+  border-radius: 6px;
+}
+
+/* Buttons */
+.primary-button {
+  background: var(--mint);
+  color: #eadbcb;
+  border: 1px solid var(--mint);
+  padding: 10px 16px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #422910;
+  border-color: #422910;
+  box-shadow: 0 4px 16px rgba(106, 67, 28, 0.2);
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1px solid #b3c4b8;
+  color: #324638;
+  background: #d3e2d8;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #bed5c4;
+  border-color: #7c9a81;
+}
+
+/* Topbar */
+.topbar {
+  height: 64px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: #f0ece9;
+  gap: 20px;
+  position: relative;
+  z-index: 30;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #958978;
+  font-size: 11px;
+}
+
+.online-dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  background: #206942;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #20694240;
+}
+
+/* 3D Scene Labels & Overlays */
+.equipment-label {
+  font-size: 9px;
+  white-space: nowrap;
+  color: #3a2f24;
+  background: rgba(234, 226, 217, 0.92);
+  border: 1px solid rgba(160, 136, 112, 0.4);
+  padding: 4px 8px;
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  user-select: none;
+}
+
+.instrument-lcd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  white-space: nowrap;
+  background: #344f2c;
+  color: #c1d9c6;
+  border: 2px solid #b6d2bf;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 32px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+/* Canvas fix */
 canvas {
   outline: none !important;
-}
-
-/* Notebook scrollable */
-.notebook-entries {
-  overflow-y: auto;
-  max-height: 300px;
 }

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d2b1c" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#3d2b1c" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="benchGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a9713a" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#3d2b1c" stop-opacity="0.15"/>
+    </linearGradient>
+    <pattern id="labTiles" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#3d2b1c" stroke-width="0.75" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Grid pattern background -->
+  <rect width="1920" height="1080" fill="url(#labTiles)"/>
+
+  <!-- Lab Architecture Silhouette Lines -->
+  <!-- Ceiling & Fume Hoods / Wall Shelves -->
+  <line x1="0" y1="180" x2="1920" y2="180" stroke="#3d2b1c" stroke-width="1.5" stroke-opacity="0.07"/>
+  <line x1="0" y1="260" x2="1920" y2="260" stroke="#3d2b1c" stroke-width="1" stroke-opacity="0.05"/>
+
+  <!-- Background Chemical Wall Reagent Bottles -->
+  <g stroke="#3d2b1c" stroke-width="1.2" stroke-opacity="0.08" fill="none">
+    <!-- Shelf 1 -->
+    <rect x="140" y="200" width="28" height="55" rx="3"/>
+    <rect x="147" y="190" width="14" height="10" rx="1"/>
+    <rect x="175" y="205" width="24" height="50" rx="3"/>
+    <rect x="181" y="196" width="12" height="9" rx="1"/>
+    <rect x="206" y="195" width="32" height="60" rx="4"/>
+    <rect x="215" y="185" width="14" height="10" rx="1"/>
+    
+    <!-- Shelf 2 -->
+    <rect x="250" y="210" width="22" height="45" rx="3"/>
+    <rect x="255" y="202" width="12" height="8" rx="1"/>
+    <rect x="280" y="198" width="30" height="57" rx="4"/>
+    <rect x="288" y="188" width="14" height="10" rx="1"/>
+
+    <!-- Right Wall Shelves -->
+    <rect x="1620" y="195" width="30" height="60" rx="4"/>
+    <rect x="1628" y="185" width="14" height="10" rx="1"/>
+    <rect x="1660" y="205" width="25" height="50" rx="3"/>
+    <rect x="1667" y="196" width="11" height="9" rx="1"/>
+    <rect x="1695" y="200" width="28" height="55" rx="3"/>
+    <rect x="1702" y="190" width="14" height="10" rx="1"/>
+    <rect x="1730" y="192" width="34" height="63" rx="4"/>
+    <rect x="1740" y="182" width="14" height="10" rx="1"/>
+  </g>
+
+  <!-- Lab Workstation Benches -->
+  <line x1="0" y1="680" x2="1920" y2="680" stroke="#3d2b1c" stroke-width="2" stroke-opacity="0.1"/>
+  <rect x="0" y="682" width="1920" height="398" fill="url(#wallGrad)"/>
+
+  <!-- Left Apparatus: Retort Stand & Burette Silhouette -->
+  <g stroke="#3d2b1c" stroke-width="1.8" stroke-opacity="0.12" fill="none">
+    <!-- Stand Base -->
+    <rect x="280" y="660" width="120" height="16" rx="2"/>
+    <!-- Vertical Rod -->
+    <line x1="340" y1="660" x2="340" y2="340"/>
+    <!-- Double Clamp Bosshead -->
+    <rect x="333" y="430" width="14" height="18" rx="2" fill="#3d2b1c" fill-opacity="0.08"/>
+    <line x1="347" y1="439" x2="390" y2="439"/>
+    <!-- Burette Tube -->
+    <rect x="390" y="320" width="14" height="280" rx="2"/>
+    <!-- Stopcock & Tip -->
+    <polygon points="384,560 410,560 400,568 394,568" fill="#3d2b1c" fill-opacity="0.1"/>
+    <line x1="397" y1="568" x2="397" y2="605"/>
+    
+    <!-- Conical Flask Underneath -->
+    <path d="M 390 615 L 404 615 L 404 625 L 424 665 L 370 665 L 390 625 Z"/>
+    <!-- Meniscus line -->
+    <path d="M 376 652 Q 397 656 418 652" stroke-dasharray="2,2"/>
+  </g>
+
+  <!-- Center-Right Apparatus: Analytical Flasks & Beakers -->
+  <g stroke="#3d2b1c" stroke-width="1.5" stroke-opacity="0.11" fill="none">
+    <!-- Beaker 250ml -->
+    <path d="M 1480 600 L 1480 665 Q 1480 670 1485 670 L 1535 670 Q 1540 670 1540 665 L 1540 600 L 1544 597 L 1476 597 Z"/>
+    <!-- Graduation marks -->
+    <line x1="1485" y1="620" x2="1498" y2="620"/>
+    <line x1="1485" y1="635" x2="1505" y2="635"/>
+    <line x1="1485" y1="650" x2="1498" y2="650"/>
+
+    <!-- Volumetric Flask 500ml -->
+    <path d="M 1585 530 L 1597 530 L 1597 590 C 1580 610 1560 635 1560 655 C 1560 668 1572 670 1591 670 C 1610 670 1622 668 1622 655 C 1622 635 1602 610 1585 590 Z"/>
+    <line x1="1587" y1="560" x2="1595" y2="560"/>
+
+    <!-- Pipette Stand / Rack -->
+    <rect x="1660" y="550" width="80" height="12" rx="2"/>
+    <line x1="1700" y1="562" x2="1700" y2="670"/>
+    <rect x="1650" y="665" width="100" height="10" rx="2"/>
+  </g>
+
+  <!-- Chemistry Benzene & Molecular Geometry Watermark -->
+  <g stroke="#a9713a" stroke-width="1.2" stroke-opacity="0.08" fill="none">
+    <!-- Hexagon 1 -->
+    <polygon points="960,260 995,280 995,320 960,340 925,320 925,280"/>
+    <circle cx="960" cy="300" r="22"/>
+    
+    <!-- Bond Lines to Secondary Rings -->
+    <line x1="995" y1="300" x2="1035" y2="300"/>
+    <polygon points="1070,280 1105,300 1105,340 1070,360 1035,340 1035,300"/>
+    
+    <line x1="925" y1="300" x2="885" y2="300"/>
+    <polygon points="850,280 885,300 885,340 850,360 815,340 815,300"/>
+  </g>
+
+  <!-- Clean Vignette Borders -->
+  <rect width="1920" height="1080" fill="none" stroke="#d9c3a0" stroke-width="1" stroke-opacity="0.2"/>
+</svg>

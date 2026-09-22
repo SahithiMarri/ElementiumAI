@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
@@ -6,230 +7,307 @@ const experiments = [
     id: 'exp01_edta',
     number: 1,
     title: 'Estimation of Hardness of Water by EDTA Method',
-    type: 'Complexometric Titration',
-    duration: '45 min',
+    category: 'Complexometric Titration',
     difficulty: 'Intermediate',
+    duration: '45 min',
     available: true,
-    color: 'from-sky-50 to-blue-50/60',
-    borderColor: 'border-sky-300',
-    accentColor: 'text-sky-700',
-    icon: '💧',
+    skills: ['Burette Setup', 'Buffer pH 10', 'EBT Chelation', 'Endpoint Swirl'],
+    description: 'Estimate total water hardness (Ca²⁺/Mg²⁺) using standard disodium EDTA with Eriochrome Black-T indicator at pH 10.',
   },
-  ...Array.from({ length: 7 }, (_, i) => ({
-    id: `exp0${i + 2}`,
-    number: i + 2,
-    title: [
-      'Standardisation of NaOH Solution',
-      'Estimation of Acetic Acid',
-      'COD of Water Sample',
-      'Spectrophotometric Fe Analysis',
-      'Dissolved Oxygen Estimation',
-      'pH Titration of Amino Acids',
-      'Conductometric Titration',
-    ][i],
-    type: 'Coming Soon',
-    duration: '—',
-    difficulty: '—',
+  {
+    id: 'exp02_standardisation',
+    number: 2,
+    title: 'Standardisation of NaOH using Oxalic Acid',
+    category: 'Acid-Base Titration',
+    difficulty: 'Beginner',
+    duration: '35 min',
     available: false,
-    color: 'from-slate-50 to-slate-100/60',
-    borderColor: 'border-slate-200',
-    accentColor: 'text-slate-400',
-    icon: ['🧪', '🍶', '💧', '🔴', '🌊', '🧬', '⚡'][i],
-  })),
+    skills: ['Primary Standard', 'Phenolphthalein', 'Neutralization'],
+    description: 'Determine exact molarity of sodium hydroxide solution against primary standard oxalic acid dihydrate.',
+  },
+  {
+    id: 'exp03_acetic_acid',
+    number: 3,
+    title: 'Estimation of Acetic Acid in Commercial Vinegar',
+    category: 'Applied Analysis',
+    difficulty: 'Beginner',
+    duration: '40 min',
+    available: false,
+    skills: ['Aliquot Dilution', 'Acidity Factor', 'Volumetric Flask'],
+    description: 'Quantify percentage purity and concentration of acetic acid in commercial retail vinegar samples.',
+  },
+  {
+    id: 'exp04_cod',
+    number: 4,
+    title: 'Chemical Oxygen Demand (COD) of Wastewater',
+    category: 'Environmental Chemistry',
+    difficulty: 'Advanced',
+    duration: '60 min',
+    available: false,
+    skills: ['Reflux Digestion', 'FAS Back Titration', 'Ferroin Indicator'],
+    description: 'Determine organic pollutant load by potassium dichromate oxidation in concentrated sulfuric acid medium.',
+  },
+  {
+    id: 'exp05_spectro',
+    number: 5,
+    title: 'Spectrophotometric Determination of Iron',
+    category: 'Instrumental Methods',
+    difficulty: 'Intermediate',
+    duration: '50 min',
+    available: false,
+    skills: ['1,10-Phenanthroline', 'Beer-Lambert Law', 'Calibration Curve'],
+    description: 'Colorimetric analysis of trace Fe(II) complex at 510 nm wavelength using standard spectrophotometer.',
+  },
+  {
+    id: 'exp06_conductometry',
+    number: 6,
+    title: 'Conductometric Titration of Strong Acid vs Strong Base',
+    category: 'Physical Chemistry',
+    difficulty: 'Intermediate',
+    duration: '40 min',
+    available: false,
+    skills: ['Conductivity Cell', 'Ionic Mobility', 'Equivalence Graph'],
+    description: 'Track electrolytic conductance changes during HCl-NaOH neutralization to find sharp equivalence point.',
+  },
 ]
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState('all')
+
+  const filteredExperiments = activeTab === 'all'
+    ? experiments
+    : activeTab === 'titration'
+    ? experiments.filter((e) => e.category.toLowerCase().includes('titration'))
+    : experiments.filter((e) => e.available)
 
   return (
-    <div className="min-h-screen bg-lab-gradient flex text-slate-900">
-      {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col p-6 shadow-sm">
-        {/* Logo */}
-        <div className="flex items-center gap-2 mb-8">
-          <span className="text-2xl">⚗</span>
+    <div className="app-shell" style={{ background: 'var(--bg)' }}>
+      {/* ── Sidebar ──────────────────────────────────────────────────────── */}
+      <aside className="sidebar">
+        {/* Brand */}
+        <div className="brand mb-6">
+          <span className="brand-icon">⚗️</span>
           <div>
-            <div className="text-base font-extrabold text-gradient">Elementium AI</div>
-            <div className="text-xs text-slate-400">Virtual Chemistry Lab</div>
+            <div className="leading-none">
+              ELEMENTIUM <span className="brand-ai">LAB</span>
+            </div>
+            <small>VIRTUAL PRACTICAL SUITE</small>
           </div>
         </div>
 
-        {/* Nav links */}
-        <nav className="space-y-1 flex-1">
-          {[
-            { icon: '🏠', label: 'Home', path: '/' },
-            { icon: '📊', label: 'Dashboard', path: '/dashboard', active: true },
-            { icon: '🔬', label: 'Experiments', path: '/dashboard' },
-            { icon: '📓', label: 'Lab Notebook', path: '/dashboard' },
-            { icon: '🤖', label: 'AI Tutor', path: '/dashboard' },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                item.active
-                  ? 'bg-sky-50 text-sky-700 border border-sky-200 shadow-sm'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              }`}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+        {/* Navigation */}
+        <div className="text-[9px] uppercase tracking-wider font-bold text-stone-500 px-3 mb-2">
+          Practical Modules
+        </div>
+        <nav className="space-y-1 mb-6">
+          <button className="nav-item selected">
+            <span>🔬</span>
+            <span>All Experiments</span>
+          </button>
+          <button onClick={() => navigate('/lab/exp01_edta')} className="nav-item">
+            <span>💧</span>
+            <span>EDTA Titration</span>
+            <span className="ml-auto text-[9px] bg-emerald-200 text-emerald-900 font-bold px-1.5 py-0.5 rounded">
+              Active
+            </span>
+          </button>
+          <button className="nav-item">
+            <span>📓</span>
+            <span>Lab Notebook</span>
+          </button>
+          <button className="nav-item">
+            <span>🤖</span>
+            <span>AI Lab Assistant</span>
+          </button>
         </nav>
 
-        {/* Quick stats */}
-        <div className="mt-auto pt-6 border-t border-slate-200">
-          <p className="text-xs text-slate-400 mb-3 uppercase font-bold tracking-wider">
-            Overall Progress
-          </p>
-          <div className="space-y-3">
-            <div>
-              <div className="flex justify-between text-xs mb-1 font-semibold">
-                <span className="text-slate-600">Experiments Done</span>
-                <span className="text-sky-600 font-mono">0 / 8</span>
-              </div>
-              <div className="h-2 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                <div className="h-full rounded-full bg-sky-500 w-0" />
-              </div>
+        {/* Scientist Level Card */}
+        <div className="mt-auto">
+          <div className="scientist-card">
+            <div className="level-emblem">
+              <span className="text-sm font-bold">L1</span>
+            </div>
+            <div className="flex-1">
+              <small>STUDENT SCIENTIST</small>
+              <strong className="text-[10px] text-stone-800">Undergraduate Chemist</strong>
+            </div>
+            <div className="progress-track mt-2">
+              <i style={{ width: '25%' }} />
+            </div>
+            <div className="flex justify-between w-full text-[8px] text-stone-600 mt-1">
+              <span>EDTA Module: Ready</span>
+              <span>1 / 6 Modules</span>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto p-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-black text-slate-900 mb-1">Laboratory Dashboard</h1>
-            <p className="text-slate-500 text-sm">
-              Select an experiment to begin your hands-on virtual laboratory practical
-            </p>
+      {/* ── Main Shell ──────────────────────────────────────────────────── */}
+      <div className="main-shell">
+        {/* Topbar */}
+        <header className="topbar">
+          <div className="breadcrumb">
+            <span>Curriculum</span>
+            <span>/</span>
+            <strong>Chemistry Practicals</strong>
           </div>
-          <button
-            onClick={() => navigate('/')}
-            className="btn-secondary text-slate-700 text-sm flex items-center gap-2"
-          >
-            <span>←</span> Back to Home
-          </button>
-        </div>
-
-        {/* Stats row */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          {[
-            { label: 'Available', value: '1', icon: '✅', color: 'text-emerald-600' },
-            { label: 'Completed', value: '0', icon: '🏆', color: 'text-amber-600' },
-            { label: 'Coming Soon', value: '7', icon: '⏳', color: 'text-slate-500' },
-            { label: 'Time Spent', value: '0h', icon: '⏱️', color: 'text-sky-600' },
-          ].map((s) => (
-            <div key={s.label} className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
-              <div className="text-xl mb-1">{s.icon}</div>
-              <div className={`text-2xl font-black ${s.color} mb-0.5 font-mono`}>{s.value}</div>
-              <div className="text-xs text-slate-500 font-medium">{s.label}</div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5 text-xs text-emerald-800 font-semibold bg-emerald-100/80 px-3 py-1 rounded-full border border-emerald-300">
+              <span className="online-dot" />
+              <span>Interactive 3D Engine Online</span>
             </div>
-          ))}
-        </div>
+          </div>
+        </header>
 
-        {/* Experiment Grid */}
-        <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <span>🔬</span> Available Chemistry Practicals
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {experiments.map((exp, i) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              whileHover={exp.available ? { y: -4, scale: 1.01 } : {}}
-              className={`relative rounded-2xl p-5 bg-gradient-to-br ${exp.color} border ${exp.borderColor} shadow-sm transition-all duration-300 ${
-                exp.available ? 'cursor-pointer hover:shadow-md' : 'opacity-70'
+        {/* Main Content Area */}
+        <main className="p-8 max-w-7xl mx-auto w-full flex-1">
+          {/* Page Heading */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1">
+                Curriculum Practical Syllabus
+              </div>
+              <h1 className="text-2xl font-bold text-stone-900">
+                Undergraduate Chemistry Laboratory
+              </h1>
+              <p className="text-xs text-stone-600 mt-1">
+                Complete realistic 3D volumetric analysis, qualitative reactions, and physical chemistry experiments with automated observation tracking.
+              </p>
+            </div>
+          </div>
+
+          {/* Stats Strip */}
+          <div className="grid grid-cols-4 gap-4 p-4 rounded-xl border border-stone-300/80 bg-stone-200/50 mb-8">
+            <div className="p-3 bg-white/80 rounded-lg border border-stone-200">
+              <div className="text-xs text-stone-500 font-semibold">Available Module</div>
+              <div className="text-xl font-bold font-mono text-emerald-800 mt-1">1 Active</div>
+              <div className="text-[10px] text-stone-500 mt-0.5">EDTA Hardness Practical</div>
+            </div>
+            <div className="p-3 bg-white/80 rounded-lg border border-stone-200">
+              <div className="text-xs text-stone-500 font-semibold">Syllabus Modules</div>
+              <div className="text-xl font-bold font-mono text-stone-800 mt-1">6 Practicals</div>
+              <div className="text-[10px] text-stone-500 mt-0.5">Undergraduate Chemistry</div>
+            </div>
+            <div className="p-3 bg-white/80 rounded-lg border border-stone-200">
+              <div className="text-xs text-stone-500 font-semibold">Simulation Realism</div>
+              <div className="text-xl font-bold font-mono text-stone-800 mt-1">3D Physics</div>
+              <div className="text-[10px] text-stone-500 mt-0.5">Drag, Pour & Titrate</div>
+            </div>
+            <div className="p-3 bg-white/80 rounded-lg border border-stone-200">
+              <div className="text-xs text-stone-500 font-semibold">AI Lab Assistant</div>
+              <div className="text-xl font-bold font-mono text-sky-800 mt-1">Gemini 2.0</div>
+              <div className="text-[10px] text-stone-500 mt-0.5">Live Practical Guidance</div>
+            </div>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex gap-2 border-b border-stone-300 pb-2 mb-6">
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'all'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-600 hover:bg-stone-200'
               }`}
             >
-              {/* Coming soon overlay */}
-              {!exp.available && (
-                <div className="absolute top-3.5 right-3.5">
-                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-600 font-semibold">
-                    Coming Soon
-                  </span>
-                </div>
-              )}
+              All Practicals ({experiments.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('active')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'active'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-600 hover:bg-stone-200'
+              }`}
+            >
+              Ready to Perform (1)
+            </button>
+            <button
+              onClick={() => setActiveTab('titration')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'titration'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-600 hover:bg-stone-200'
+              }`}
+            >
+              Titration Experiments
+            </button>
+          </div>
 
-              {/* Icon + number */}
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-sm ${
-                    exp.available ? 'bg-white text-sky-600 border border-sky-100' : 'bg-slate-200/80 text-slate-400'
-                  }`}
-                >
-                  {exp.icon}
-                </div>
-                <span className={`text-xs font-extrabold ${exp.accentColor}`}>
-                  EXPERIMENT {String(exp.number).padStart(2, '0')}
-                </span>
-              </div>
-
-              {/* Title */}
-              <h3
-                className={`text-sm font-bold leading-snug mb-2 ${
-                  exp.available ? 'text-slate-900' : 'text-slate-500'
+          {/* Experiment Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredExperiments.map((exp) => (
+              <motion.div
+                key={exp.id}
+                whileHover={exp.available ? { y: -3 } : {}}
+                className={`flex flex-col justify-between rounded-xl p-5 border shadow-sm transition-all ${
+                  exp.available
+                    ? 'bg-white border-stone-300 hover:border-stone-500 hover:shadow-md'
+                    : 'bg-stone-100/70 border-stone-200 opacity-75'
                 }`}
               >
-                {exp.title}
-              </h3>
+                <div>
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-2 py-0.5 rounded bg-stone-100 border border-stone-300 text-[10px] font-bold text-stone-700 font-mono">
+                      EXP {String(exp.number).padStart(2, '0')}
+                    </span>
+                    <span
+                      className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                        exp.available
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          : 'bg-stone-200 text-stone-600'
+                      }`}
+                    >
+                      {exp.available ? 'Ready to Perform' : 'Coming Soon'}
+                    </span>
+                  </div>
 
-              {/* Meta */}
-              <div className="flex items-center gap-3 text-xs text-slate-500 mb-5 font-medium">
-                <span>{exp.type}</span>
-                {exp.duration !== '—' && (
-                  <>
-                    <span>·</span>
-                    <span>⏱ {exp.duration}</span>
-                  </>
-                )}
-              </div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">
+                    {exp.category}
+                  </div>
+                  <h3 className="text-sm font-bold text-stone-900 leading-snug mb-2">
+                    {exp.title}
+                  </h3>
+                  <p className="text-xs text-stone-600 leading-relaxed mb-4">
+                    {exp.description}
+                  </p>
 
-              {/* Button */}
-              {exp.available ? (
-                <button
-                  onClick={() => navigate(`/lab/${exp.id}`)}
-                  className="w-full btn-primary text-xs py-2.5 rounded-xl shadow-sm flex items-center justify-center gap-1.5"
-                >
-                  <span>🚀</span> Start Experiment
-                </button>
-              ) : (
-                <button
-                  disabled
-                  className="w-full py-2.5 rounded-xl text-xs font-semibold bg-slate-200/80 text-slate-400 cursor-not-allowed"
-                >
-                  Curriculum Module Locked
-                </button>
-              )}
-            </motion.div>
-          ))}
-        </div>
+                  {/* Skills tags */}
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {exp.skills.map((s, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded bg-stone-100 border border-stone-200 text-[9px] text-stone-600 font-medium"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-        {/* AI Tutor quick chat widget */}
-        <div className="mt-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-lg text-white shadow-md">
-              🤖
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-900">Elementium AI Tutor</h3>
-              <p className="text-xs text-slate-500">Gemini-Powered Chemistry Guidance</p>
-            </div>
-            <span className="ml-auto flex items-center gap-1.5 text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-slow" />
-              Online & Ready
-            </span>
+                {/* Footer Action */}
+                <div className="pt-3 border-t border-stone-200 mt-2 flex items-center justify-between">
+                  <span className="text-[11px] text-stone-500 font-medium">⏱ {exp.duration}</span>
+                  {exp.available ? (
+                    <button
+                      onClick={() => navigate(`/lab/${exp.id}`)}
+                      className="primary-button text-xs py-2 px-4"
+                    >
+                      <span>🚀</span> Enter 3D Lab
+                    </button>
+                  ) : (
+                    <span className="text-[10px] text-stone-400 font-medium italic">
+                      Locked
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed border border-slate-100">
-            👋 Welcome! Click on <strong className="text-sky-700">Experiment 1</strong> above to launch the 3D lab. I'll guide you step-by-step through apparatus setup, buffer preparation, indicator addition, and titration endpoint detection!
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }

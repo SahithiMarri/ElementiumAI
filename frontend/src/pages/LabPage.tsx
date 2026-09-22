@@ -10,15 +10,15 @@ import ResultScreen from '../components/ui/ResultScreen'
 
 function LabLoadingFallback() {
   return (
-    <div className="w-full h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-800">
-      <div className="text-5xl mb-6 animate-bounce">⚗️</div>
-      <h2 className="text-xl font-bold text-slate-900 mb-2">Preparing Virtual Laboratory…</h2>
-      <p className="text-slate-500 text-sm mb-6">Initializing 3D workspace, apparatus, and reagents</p>
+    <div className="w-full h-full flex flex-col items-center justify-center text-stone-800" style={{ background: 'var(--bg)' }}>
+      <div className="text-5xl mb-3 animate-bounce">⚗️</div>
+      <h2 className="text-base font-bold text-stone-900 mb-1">Initializing 3D Chemistry Laboratory…</h2>
+      <p className="text-stone-600 text-xs mb-4">Setting up workstation apparatus, reagents, and AI guidance</p>
       <div className="flex gap-1.5">
         {[0.1, 0.2, 0.3, 0.4, 0.5].map((d, i) => (
           <div
             key={i}
-            className="w-2.5 h-2.5 rounded-full bg-sky-500 animate-bounce"
+            className="w-2 h-2 rounded-full bg-[#a9713a] animate-bounce"
             style={{ animationDelay: `${d}s` }}
           />
         ))}
@@ -32,66 +32,74 @@ export default function LabPage() {
   const { currentStep, isCompleted } = useLabStore()
 
   return (
-    <div className="w-full h-screen bg-slate-100 relative overflow-hidden text-slate-900">
-      {/* Top Navigation Bar */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-2.5 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div className="w-full h-screen flex flex-col overflow-hidden select-none" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
+      {/* Top Academic Laboratory Navigation Bar (Always visible, non-overlapping) */}
+      <header className="h-13 w-full px-4 sm:px-6 bg-[#f0ece9] border-b border-[#d9c3a0] flex items-center justify-between z-30 shadow-xs flex-shrink-0">
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-slate-600 hover:text-slate-900 transition-colors text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-100 border border-slate-200"
+            className="text-stone-700 hover:text-stone-900 transition-colors text-xs font-semibold px-2.5 py-1 rounded bg-[#e5dcd2] hover:bg-[#d9c3a0] border border-[#d9c3a0]"
           >
             ← Dashboard
           </button>
-          <div className="h-4 w-px bg-slate-200" />
-          <div className="flex items-center gap-2.5">
-            <span className="text-base">⚗️</span>
+          <div className="h-4 w-px bg-[#d9c3a0]" />
+          <div className="flex items-center gap-2">
+            <span className="text-base">💧</span>
             <div>
-              <p className="text-slate-900 text-xs font-bold leading-none">Experiment 1</p>
-              <p className="text-slate-500 text-[11px] leading-none mt-1">
-                Estimation of Hardness of Water by EDTA Method
+              <p className="text-[#3d2b1c] text-xs font-bold leading-none">Experiment 1 · EDTA Titration</p>
+              <p className="text-[#8a7052] text-[10px] leading-none mt-0.5">
+                Estimation of Total Hardness of Water Sample
               </p>
             </div>
           </div>
         </div>
 
-        {/* Status indicator */}
+        {/* Live Lab Practical Status */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#3d2b1c] bg-[#fbf4e8] px-2.5 py-1 rounded-full border border-[#d9c3a0]">
             <span
-              className={`w-2 h-2 rounded-full ${
-                currentStep !== 'IDLE' ? 'bg-emerald-500 animate-pulse-slow' : 'bg-slate-400'
+              className={`online-dot ${
+                currentStep !== 'IDLE' ? 'bg-emerald-600' : 'bg-stone-400'
               }`}
             />
-            {currentStep === 'IDLE' ? 'Ready to Start' : 'Practical in Progress'}
+            <span>{currentStep === 'IDLE' ? 'Ready to Start' : 'Practical in Progress'}</span>
           </div>
-          <span className="text-[11px] text-slate-400 font-mono hidden sm:inline">
-            3D Lab Active
+          <span className="text-[10px] text-[#8a7052] font-mono hidden md:inline">
+            Interactive 3D Workstation
           </span>
         </div>
-      </div>
+      </header>
 
-      {/* Main 3D Scene */}
-      <Suspense fallback={<LabLoadingFallback />}>
-        <LabScene />
-      </Suspense>
+      {/* 3D Scene Container with Responsive UI Overlays */}
+      <main className="flex-1 w-full relative overflow-hidden">
+        <Suspense fallback={<LabLoadingFallback />}>
+          <LabScene />
+        </Suspense>
 
-      {/* UI Overlays */}
-      <StepIndicator />
-      <AIAssistant />
-      <Notebook />
-      <MistakeAlert />
+        {/* Responsive Floating Workflow Card (Top-Left) */}
+        <StepIndicator />
 
-      {/* Result screen */}
-      {isCompleted && <ResultScreen />}
+        {/* Responsive Lab Notebook (Top-Right) */}
+        <Notebook />
 
-      {/* Controls Navigation Hint */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 shadow-md">
-        <span className="text-xs text-slate-600 font-medium">🖱️ Drag to rotate</span>
-        <span className="text-xs text-slate-300">·</span>
-        <span className="text-xs text-slate-600 font-medium">🖱️ Scroll to zoom</span>
-        <span className="text-xs text-slate-300">·</span>
-        <span className="text-xs text-slate-600 font-medium">⇧ Shift + Drag to pan</span>
-      </div>
+        {/* AI Assistant Tutor (Bottom-Right) */}
+        <AIAssistant />
+
+        {/* Mistake Alert Banner */}
+        <MistakeAlert />
+
+        {/* Result Screen Modal */}
+        {isCompleted && <ResultScreen />}
+
+        {/* 3D Navigation Controls Hint */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center gap-3 bg-stone-900/80 text-stone-200 backdrop-blur-md px-4 py-1.5 rounded-full border border-stone-700 text-[11px] shadow-lg pointer-events-none">
+          <span>🖱️ Drag to rotate view</span>
+          <span className="text-stone-500">·</span>
+          <span>🖱️ Scroll to zoom</span>
+          <span className="text-stone-500">·</span>
+          <span>⇧ Shift + Drag to pan</span>
+        </div>
+      </main>
     </div>
   )
 }

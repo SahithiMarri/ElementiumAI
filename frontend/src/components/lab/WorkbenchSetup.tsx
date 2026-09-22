@@ -16,8 +16,8 @@ function FallingDrops() {
 
     if (burette.isOpen) {
       const currentY = dropRef.current.position.y
-      if (currentY <= 0.95) {
-        dropRef.current.position.y = 1.12
+      if (currentY <= 1.25) {
+        dropRef.current.position.y = 1.42
         addEdtaDrop()
       } else {
         dropRef.current.position.y -= delta * 3.0
@@ -25,12 +25,12 @@ function FallingDrops() {
       dropRef.current.visible = true
     } else {
       dropRef.current.visible = false
-      dropRef.current.position.y = 1.12
+      dropRef.current.position.y = 1.42
     }
   })
 
   return (
-    <mesh ref={dropRef} position={[-0.8, 1.12, 0.72]} visible={false}>
+    <mesh ref={dropRef} position={[-0.8, 1.42, 0.72]} visible={false}>
       <sphereGeometry args={[0.03, 8, 8]} />
       <meshStandardMaterial
         color="#38bdf8"
@@ -240,10 +240,10 @@ export default function WorkbenchSetup() {
           />
         )}
 
-      {/* ── Step 2-5 Chemical Drop Signals above Vessels ───────────────────── */}
+      {/* ── Step 2-5 Chemical Drop Signals directly above vessel openings ──── */}
       {!isCompleted && currentStep === 'PREPARE_SAMPLE' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 1.45, 0.72]}
+          position={[-0.8, 3.52, 0.72]}
           label="💧 Drag Hard Water into Flask"
           onClick={() => {}}
           type="mouth"
@@ -252,7 +252,7 @@ export default function WorkbenchSetup() {
 
       {!isCompleted && currentStep === 'ADD_BUFFER' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 1.45, 0.72]}
+          position={[-0.8, 3.52, 0.72]}
           label="💧 Drag Buffer into Flask"
           onClick={() => {}}
           type="mouth"
@@ -261,7 +261,7 @@ export default function WorkbenchSetup() {
 
       {!isCompleted && currentStep === 'ADD_INDICATOR' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 1.45, 0.72]}
+          position={[-0.8, 3.52, 0.72]}
           label="💧 Drag EBT Indicator into Flask"
           onClick={() => {}}
           type="mouth"
@@ -270,7 +270,7 @@ export default function WorkbenchSetup() {
 
       {!isCompleted && currentStep === 'FILL_BURETTE' && apparatus.burette.placed && (
         <GreenSnapSignal
-          position={[-0.8, 5.5, 0.72]}
+          position={[-0.8, 5.58, 0.72]}
           label="💧 Drag EDTA into Burette Top"
           onClick={() => {}}
           type="mouth"
@@ -292,7 +292,7 @@ export default function WorkbenchSetup() {
           {/* Stopcock HUD button (hidden when completed) */}
           {!isCompleted && currentStep === 'PERFORM_TITRATION' && (
             <Html position={[0.6, -2.1, 0]} center>
-              <div className="flex flex-col items-center gap-1 bg-white/95 border border-slate-200 p-2 rounded-xl backdrop-blur-md shadow-xl text-slate-900">
+              <div className="flex flex-col items-center gap-1 bg-[#fbf4e8]/95 border border-[#d9c3a0] p-2 rounded-xl backdrop-blur-md shadow-xl text-[#3d2b1c]">
                 <button
                   onClick={() => (burette.isOpen ? closeStopcock() : openStopcock())}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm cursor-pointer ${
@@ -303,7 +303,7 @@ export default function WorkbenchSetup() {
                 >
                   {burette.isOpen ? '⏹ Close Stopcock' : '▶ Open Stopcock'}
                 </button>
-                <span className="text-[10px] text-slate-500 font-semibold">
+                <span className="text-[10px] text-[#8a7052] font-semibold">
                   {burette.isOpen ? 'Dripping EDTA...' : 'Flow Stopped'}
                 </span>
               </div>
@@ -327,8 +327,8 @@ export default function WorkbenchSetup() {
 
           {/* Swirl Flask button positioned BESIDE the flask so swirling liquid is clearly visible */}
           {!isCompleted && currentStep === 'PERFORM_TITRATION' && (
-            <Html position={[0.72, 0.35, 0]} center>
-              <div className="flex flex-col items-start bg-white/95 border border-slate-200 p-2 rounded-2xl shadow-xl backdrop-blur-md">
+            <Html position={[0.75, 1.2, 0]} center>
+              <div className="flex flex-col items-start bg-[#fbf4e8]/95 border border-[#d9c3a0] p-2 rounded-2xl shadow-xl backdrop-blur-md">
                 <button
                   onMouseDown={() => triggerSwirl()}
                   onMouseUp={() => stopSwirl()}
@@ -336,14 +336,14 @@ export default function WorkbenchSetup() {
                   onTouchEnd={() => stopSwirl()}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all shadow-sm flex items-center gap-1.5 cursor-pointer ${
                     isSwirling
-                      ? 'bg-sky-600 text-white border-sky-600 shadow-md scale-105'
-                      : 'bg-slate-50 text-slate-700 border-slate-300 hover:border-sky-500 hover:bg-sky-50'
+                      ? 'bg-[#a9713a] text-white border-[#a9713a] shadow-md scale-105'
+                      : 'bg-white text-[#3d2b1c] border-[#d9c3a0] hover:border-[#a9713a] hover:bg-[#f0dcb8]'
                   }`}
                 >
                   <span>{isSwirling ? '🌀' : '🔄'}</span>
                   <span>{isSwirling ? 'Swirling Flask...' : 'Click & Hold to Swirl'}</span>
                 </button>
-                <span className="text-[9px] text-slate-500 font-medium mt-1 pl-1">
+                <span className="text-[9px] text-[#8a7052] font-medium mt-1 pl-1">
                   Swirl to mix EDTA evenly
                 </span>
               </div>
@@ -352,7 +352,7 @@ export default function WorkbenchSetup() {
 
           {/* Live Color / State Tag above Flask (hidden when completed) */}
           {!isCompleted && flask.sampleAdded && (
-            <Html position={[0, 1.4, 0]} center style={{ pointerEvents: 'none' }}>
+            <Html position={[0, 2.85, 0]} center style={{ pointerEvents: 'none' }}>
               <div
                 className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold shadow-md border border-white/40 whitespace-nowrap"
                 style={{
