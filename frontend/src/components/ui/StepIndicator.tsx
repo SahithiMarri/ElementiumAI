@@ -4,6 +4,7 @@ import { useLabStore, type ExperimentStep } from '../../store/labStore'
 import exp01 from '../../experiments/exp01_edta/config'
 
 const STEP_ORDER: ExperimentStep[] = [
+  'WEAR_PPE',
   'SETUP_APPARATUS',
   'PREPARE_SAMPLE',
   'ADD_BUFFER',
@@ -17,6 +18,8 @@ export default function StepIndicator() {
     currentStep,
     startExperiment,
     experimentStarted,
+    ppe,
+    wearPPE,
     apparatus,
     placeApparatus,
     flask,
@@ -118,7 +121,42 @@ export default function StepIndicator() {
                     {currentStepConfig?.instruction}
                   </div>
 
-                  {/* Step 1 Checklist */}
+                  {/* Safety Gear Checklist */}
+                  {currentStep === 'WEAR_PPE' && (
+                    <div className="space-y-1 bg-[#ecdbc0]/50 p-2 rounded-xl border border-[#d9c3a0] text-[11px]">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[#3d2b1c] font-medium">
+                          <span>{ppe.apron ? '✅' : '⚪'}</span>
+                          <span>1. Brown Lab Apron</span>
+                        </span>
+                        {!ppe.apron && (
+                          <button
+                            onClick={() => wearPPE('apron')}
+                            className="px-1.5 py-0.5 rounded bg-emerald-200 hover:bg-emerald-300 text-emerald-900 text-[9px] font-bold"
+                          >
+                            + Wear
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[#3d2b1c] font-medium">
+                          <span>{ppe.gloves ? '✅' : '⚪'}</span>
+                          <span>2. Nitrile Gloves</span>
+                        </span>
+                        {!ppe.gloves && (
+                          <button
+                            onClick={() => wearPPE('gloves')}
+                            className="px-1.5 py-0.5 rounded bg-emerald-200 hover:bg-emerald-300 text-emerald-900 text-[9px] font-bold"
+                          >
+                            + Wear
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Apparatus Checklist */}
                   {currentStep === 'SETUP_APPARATUS' && (
                     <div className="space-y-1 bg-[#ecdbc0]/50 p-2 rounded-xl border border-[#d9c3a0] text-[11px]">
                       <div className="flex items-center justify-between">

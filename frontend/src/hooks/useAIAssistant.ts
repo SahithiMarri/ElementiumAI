@@ -10,6 +10,8 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
 // Fallback messages per step (shown if backend is unavailable)
 const FALLBACK_MESSAGES: Record<ExperimentStep, string> = {
   IDLE: 'Welcome to the EDTA Hardness Estimation lab! Click "Start Experiment" to begin.',
+  WEAR_PPE:
+    'Safety first — before you touch anything on the bench, put on your protective gear. Click the green marker at the PPE stand by the back windows to walk over, then take the brown apron and a pair of gloves.',
   SETUP_APPARATUS:
     'Set up your apparatus first. Drag the burette stand to the workbench, attach the burette, and place the conical flask.',
   PREPARE_SAMPLE:

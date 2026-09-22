@@ -3,6 +3,7 @@ import { create } from 'zustand'
 // ─── Experiment Steps ───────────────────────────────────────────────────────
 export type ExperimentStep =
   | 'IDLE'
+  | 'WEAR_PPE'
   | 'SETUP_APPARATUS'
   | 'PREPARE_SAMPLE'
   | 'ADD_BUFFER'
@@ -44,6 +45,12 @@ export interface LabState {
   currentStep: ExperimentStep
   experimentStarted: boolean
   isCompleted: boolean
+
+  // Personal protective equipment, worn before touching the bench
+  ppe: {
+    apron: boolean
+    gloves: boolean
+  }
 
   // Apparatus
   apparatus: Record<string, ApparatusState>
@@ -92,6 +99,8 @@ export interface LabState {
   // Actions ─────────────────────────────────────────────────────────────────
   startExperiment: () => void
   advanceStep: (step: ExperimentStep) => void
+
+  wearPPE: (item: 'apron' | 'gloves') => void
 
   setIsDraggingApparatus: (isDragging: boolean) => void
   placeApparatus: (id: string, snapZoneId: string, pos: [number, number, number]) => void
@@ -179,6 +188,8 @@ export const useLabStore = create<LabState>((set, get) => ({
   experimentStarted: false,
   isCompleted: false,
 
+  ppe: { apron: false, gloves: false },
+
   apparatus: initialApparatus,
   isDraggingApparatus: false,
 
@@ -216,9 +227,11 @@ export const useLabStore = create<LabState>((set, get) => ({
   isAITyping: false,
 
   startExperiment: () =>
-    set({ experimentStarted: true, currentStep: 'SETUP_APPARATUS' }),
+    set({ experimentStarted: true, currentStep: 'WEAR_PPE' }),
 
   advanceStep: (step) => set({ currentStep: step }),
+
+  wearPPE: (item) => set((s) => ({ ppe: { ...s.ppe, [item]: true } })),
 
   setIsDraggingApparatus: (isDragging) => set({ isDraggingApparatus: isDragging }),
 
@@ -355,6 +368,7 @@ export const useLabStore = create<LabState>((set, get) => ({
       currentStep: 'IDLE',
       experimentStarted: false,
       isCompleted: false,
+      ppe: { apron: false, gloves: false },
       apparatus: initialApparatus,
       isDraggingApparatus: false,
       isPouring: false,

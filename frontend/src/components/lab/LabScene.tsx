@@ -6,6 +6,7 @@ import LabEnvironment from './LabEnvironment'
 import ApparatusShelf from './apparatus/ApparatusShelf'
 import ChemicalShelf from './chemicals/ChemicalShelf'
 import WorkbenchSetup from './WorkbenchSetup'
+import PPEStand from './safety/PPEStand'
 import { useLabStore } from '../../store/labStore'
 
 /**
@@ -15,6 +16,9 @@ import { useLabStore } from '../../store/labStore'
  * - Zero obstructing foreground slabs
  * - Smooth OrbitControls with reset view option
  */
+/** Default camera placement — wide enough to take in the whole workstation. */
+const HOME_CAMERA: [number, number, number] = [0, 3.1, 8.4]
+
 export default function LabScene() {
   const { isDraggingApparatus } = useLabStore()
   const controlsRef = useRef<OrbitControlsImpl>(null)
@@ -22,7 +26,7 @@ export default function LabScene() {
 
   const resetCamera = () => {
     if (cameraRef.current) {
-      cameraRef.current.position.set(0, 2.4, 6.0)
+      cameraRef.current.position.set(HOME_CAMERA[0], HOME_CAMERA[1], HOME_CAMERA[2])
     }
     if (controlsRef.current) {
       controlsRef.current.target.set(0, 1.35, 0.6)
@@ -48,7 +52,7 @@ export default function LabScene() {
         <color attach="background" args={['#c7d1cd']} />
         <fog attach="fog" args={['#c7d1cd', 35, 72]} />
 
-        <PerspectiveCamera makeDefault position={[0, 2.4, 6.0]} fov={52} near={0.1} far={120} />
+        <PerspectiveCamera makeDefault position={HOME_CAMERA} fov={52} near={0.1} far={120} />
 
         {/* Ambient & Daylight Hemisphere Lights */}
         <ambientLight intensity={1.45} color="#e9f2ed" />
@@ -91,6 +95,9 @@ export default function LabScene() {
           {/* Soft Ground Contact Shadows */}
           <ContactShadows position={[0, 0.81, 0.6]} opacity={0.35} scale={12} blur={2.0} far={4} />
 
+          {/* Safety gear, shown only during the PPE step */}
+          <PPEStand />
+
           {/* Interactive Lab Apparatus and Chemical Shelves */}
           <ApparatusShelf />
           <ChemicalShelf />
@@ -103,7 +110,7 @@ export default function LabScene() {
           enabled={!isDraggingApparatus}
           target={[0, 1.35, 0.6]}
           minDistance={2.2}
-          maxDistance={8.5}
+          maxDistance={11}
           minAzimuthAngle={-0.85}
           maxAzimuthAngle={0.85}
           minPolarAngle={0.8}
@@ -118,7 +125,7 @@ export default function LabScene() {
       <button
         type="button"
         onClick={resetCamera}
-        className="absolute bottom-4 right-4 z-20 px-3 py-1.5 rounded-lg bg-stone-900/80 hover:bg-stone-900 text-stone-200 text-[10px] font-bold tracking-wider uppercase border border-stone-700/60 shadow-lg backdrop-blur-md transition-all flex items-center gap-1.5"
+        className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-lg bg-stone-900/80 hover:bg-stone-900 text-stone-200 text-[10px] font-bold tracking-wider uppercase border border-stone-700/60 shadow-lg backdrop-blur-md transition-all flex items-center gap-1.5"
         title="Reset Camera View"
       >
         <span>🔄</span> Reset View

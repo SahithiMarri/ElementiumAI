@@ -48,8 +48,17 @@ const exp01: ExperimentConfig = {
 
   steps: [
     {
+      id: 'WEAR_PPE',
+      title: 'Step 1 — Wear Safety Gear',
+      instruction:
+        'Before handling any glassware or reagents, put on your personal protective equipment. Click the green marker at the PPE stand by the back windows to walk over, then click the brown apron and the gloves — or tick them off in the checklist below.',
+      aiGuidance:
+        'Safety first. Take the brown lab apron and a pair of gloves from the PPE stand at the back wall, in front of the windows, before you approach the bench.',
+      requiredAction: 'wearAllPPE',
+    },
+    {
       id: 'SETUP_APPARATUS',
-      title: 'Step 1 — Setup Apparatus',
+      title: 'Step 2 — Setup Apparatus',
       instruction:
         'Drag the Burette Stand to the workbench. Then drag the Burette onto the stand clamp. Finally, place the Conical Flask directly beneath the burette tip.',
       aiGuidance:
@@ -58,7 +67,7 @@ const exp01: ExperimentConfig = {
     },
     {
       id: 'PREPARE_SAMPLE',
-      title: 'Step 2 — Transfer Hard Water Sample',
+      title: 'Step 3 — Transfer Hard Water Sample',
       instruction:
         'Drag the Hard Water bottle from the chemical shelf and drop it over the Conical Flask to pour 25 mL of water sample.',
       aiGuidance:
@@ -67,7 +76,7 @@ const exp01: ExperimentConfig = {
     },
     {
       id: 'ADD_BUFFER',
-      title: 'Step 3 — Add Ammonia Buffer (pH 10)',
+      title: 'Step 4 — Add Ammonia Buffer (pH 10)',
       instruction:
         'Drag the Ammonia Buffer (pH 10) bottle from the shelf and drop it over the Conical Flask to pour 2 mL of buffer.',
       aiGuidance:
@@ -76,7 +85,7 @@ const exp01: ExperimentConfig = {
     },
     {
       id: 'ADD_INDICATOR',
-      title: 'Step 4 — Add EBT Indicator',
+      title: 'Step 5 — Add EBT Indicator',
       instruction:
         'Drag the Eriochrome Black T (EBT) Indicator bottle and drop it over the flask to add 2–3 drops. Observe the wine red color change!',
       aiGuidance:
@@ -85,7 +94,7 @@ const exp01: ExperimentConfig = {
     },
     {
       id: 'FILL_BURETTE',
-      title: 'Step 5 — Fill Burette with EDTA',
+      title: 'Step 6 — Fill Burette with EDTA',
       instruction:
         'Drag the standard EDTA Solution bottle and drop it over the top of the Burette to fill it to the 0.00 mL mark.',
       aiGuidance:
@@ -94,7 +103,7 @@ const exp01: ExperimentConfig = {
     },
     {
       id: 'PERFORM_TITRATION',
-      title: 'Step 6 — Perform Titration',
+      title: 'Step 7 — Perform Titration',
       instruction:
         'Click "Open Stopcock" to start dispensing EDTA drops. Click and hold the flask to swirl continuously. Watch the color transition: Wine Red → Purple → Permanent Blue!',
       aiGuidance:
