@@ -243,7 +243,7 @@ export default function WorkbenchSetup() {
       {/* ── Step 2-5 Chemical Drop Signals directly above vessel openings ──── */}
       {!isCompleted && currentStep === 'PREPARE_SAMPLE' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 3.52, 0.72]}
+          position={[-0.8, 2.62, 0.72]}
           label="💧 Drag Hard Water into Flask"
           onClick={() => {}}
           type="mouth"
@@ -252,7 +252,7 @@ export default function WorkbenchSetup() {
 
       {!isCompleted && currentStep === 'ADD_BUFFER' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 3.52, 0.72]}
+          position={[-0.8, 2.62, 0.72]}
           label="💧 Drag Buffer into Flask"
           onClick={() => {}}
           type="mouth"
@@ -261,7 +261,7 @@ export default function WorkbenchSetup() {
 
       {!isCompleted && currentStep === 'ADD_INDICATOR' && apparatus.conicalFlask.placed && (
         <GreenSnapSignal
-          position={[-0.8, 3.52, 0.72]}
+          position={[-0.8, 2.62, 0.72]}
           label="💧 Drag EBT Indicator into Flask"
           onClick={() => {}}
           type="mouth"
@@ -352,7 +352,7 @@ export default function WorkbenchSetup() {
 
           {/* Live Color / State Tag above Flask (hidden when completed) */}
           {!isCompleted && flask.sampleAdded && (
-            <Html position={[0, 2.85, 0]} center style={{ pointerEvents: 'none' }}>
+            <Html position={[0, 2.0, 0]} center style={{ pointerEvents: 'none' }}>
               <div
                 className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold shadow-md border border-white/40 whitespace-nowrap"
                 style={{

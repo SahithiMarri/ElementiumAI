@@ -78,16 +78,16 @@ export default function ChemicalShelf() {
   const { sendGuidance, sendCorrection } = useAIAssistant()
 
   // Target vessel rim coordinates
-  const FLASK_TARGET: [number, number, number] = [-0.8, 3.47, 0.72]
+  const FLASK_TARGET: [number, number, number] = [-0.8, 2.55, 0.72]
   const BURETTE_TARGET: [number, number, number] = [-0.8, 5.52, 0.72]
 
   // Hover/Tilt positions: placed to the right of the vessel, tilting leftwards over the opening
-  const FLASK_POUR: [number, number, number] = [-0.18, 3.15, 0.72]
+  const FLASK_POUR: [number, number, number] = [-0.18, 2.23, 0.72]
   const BURETTE_POUR: [number, number, number] = [-0.18, 5.20, 0.72]
 
   // Stream spout origin & stream landing inside the vessel
-  const FLASK_STREAM_START: [number, number, number] = [-0.80, 3.50, 0.72]
-  const FLASK_STREAM_END: [number, number, number] = [-0.80, 1.25, 0.72]
+  const FLASK_STREAM_START: [number, number, number] = [-0.80, 2.58, 0.72]
+  const FLASK_STREAM_END: [number, number, number] = [-0.80, 1.15, 0.72]
 
   const BURETTE_STREAM_START: [number, number, number] = [-0.80, 5.55, 0.72]
   const BURETTE_STREAM_END: [number, number, number] = [-0.80, 4.00, 0.72]
