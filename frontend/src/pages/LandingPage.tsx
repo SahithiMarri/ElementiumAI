@@ -54,13 +54,13 @@ export default function LandingPage() {
 
   const experiments = [
     { title: 'Estimation of Hardness of Water by EDTA Method', available: true },
-    { title: 'Preparation and Standardisation of NaOH Solution', available: false },
-    { title: 'Estimation of Acetic Acid in Vinegar', available: false },
-    { title: 'Determination of COD of Water Sample', available: false },
-    { title: 'Spectrophotometric Determination of Iron', available: false },
-    { title: 'Estimation of Dissolved Oxygen', available: false },
-    { title: 'pH Titration of Amino Acids', available: false },
-    { title: 'Conductometric Titration', available: false },
+    { title: 'Determination of Chloride content in given water sample', available: false },
+    { title: 'Conductometric titration of Acid vs Base', available: false },
+    { title: 'Titration of Acid vs Base using pH metric method', available: false },
+    { title: 'Estimation of copper present in the given solution by Colorimetric method', available: false },
+    { title: 'Determination of Viscosity of sample oil by Redwood Viscometer', available: false },
+    { title: 'Conductometric titration of mixture of strong acid and weak acid by strong base', available: false },
+    { title: 'Determination of surface tension of a liquid by drop method using Stalagmometer', available: false },
   ]
 
   return (
